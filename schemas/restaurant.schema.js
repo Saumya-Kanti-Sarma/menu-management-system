@@ -25,6 +25,10 @@ const restaurantSchema = mongoose.Schema({
     require: true,
     unique: true,
   },
+  created: {
+    type: String,
+    default: new Date(),
+  },
 })
 
 export const restaurantData = mongoose.model("restaurant", restaurantSchema);
