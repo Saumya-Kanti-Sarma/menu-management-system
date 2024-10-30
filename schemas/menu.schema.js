@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
 const menuSchema = mongoose.Schema({
-  restaurantID: {
-    type: String,
-    require: true,
-  },
   dishName: {
     type: String,
-    require: true,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
   },
   price: {
     type: String,
-    require: true,
+    required: true,
   },
   available: {
     type: Boolean,
@@ -18,8 +18,10 @@ const menuSchema = mongoose.Schema({
   },
   menuOf: {
     type: String,
-    require: true,
+    required: true,
   },
 })
+
+menuSchema.index({ menuOf: 1, dishName: 1 }, { unique: true });
 
 export const menuData = mongoose.model("menu", menuSchema)
