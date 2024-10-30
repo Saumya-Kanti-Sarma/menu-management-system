@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const ratingsSchema = mongoose.Schema({
   customerName: {
     type: String,
-    require: true,
+    required: true,
   },
   dishID: {
     type: String,

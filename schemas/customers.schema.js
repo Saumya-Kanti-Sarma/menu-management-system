@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 const customerSchema = mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   phoneNumber: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
   }
 })
