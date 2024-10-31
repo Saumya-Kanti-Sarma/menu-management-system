@@ -1,0 +1,116 @@
+[
+  {
+    "restaurantName": "Spice Lounge",
+    "password": "Sp1cePass123",
+    "phoneNumber": "6789012345",
+    "address": "4044 Spice St, Flavortown",
+    "ownerName": "Amir Khan",
+    "type": [
+      "family restaurant"
+    ],
+    "created": "2024-10-31T10:45:00Z"
+  },
+  {
+    "restaurantName": "The Dining Room",
+    "password": "Dine@Room567",
+    "phoneNumber": "7890123456",
+    "address": "5055 Culinary Ave, Metropolis",
+    "ownerName": "Emily Watson",
+    "type": [
+      "events",
+      "club"
+    ],
+    "created": "2024-10-31T10:45:00Z"
+  },
+  {
+    "restaurantName": "Farmhouse Dhaba",
+    "password": "FarmDhab@321",
+    "phoneNumber": "8901234567",
+    "address": "6066 Country Rd, Villagetown",
+    "ownerName": "Sandeep Singh",
+    "type": [
+      "dhaba"
+    ],
+    "created": "2024-10-31T10:45:00Z"
+  },
+  {
+    "restaurantName": "Urban Eatery",
+    "password": "Urban#987",
+    "phoneNumber": "9012345678",
+    "address": "7077 City Blvd, Uptown",
+    "ownerName": "Nina Gomez",
+    "type": [
+      "club",
+      "events"
+    ],
+    "created": "2024-10-31T10:45:00Z"
+  },
+  {
+    "restaurantName": "Culinary Delights",
+    "password": "Delight@Food",
+    "phoneNumber": "2345678901",
+    "address": "8088 Flavor St, Downtown",
+    "ownerName": "William Johnson",
+    "type": [
+      "family restaurant",
+      "events"
+    ],
+    "created": "2024-10-31T10:45:00Z"
+  },
+  {
+    "restaurantName": "Metro Bites",
+    "password": "MetroB1tes!",
+    "phoneNumber": "3456789012",
+    "address": "9099 Taste Rd, Cityscape",
+    "ownerName": "Oliver Martinez",
+    "type": [
+      "events"
+    ],
+    "created": "2024-10-31T10:45:00Z"
+  },
+  {
+    "restaurantName": "Chef’s Table",
+    "password": "Chef@2024",
+    "phoneNumber": "4567890123",
+    "address": "1110 Gourmet Ave, Flavortown",
+    "ownerName": "Sophia Lee",
+    "type": [
+      "family restaurant"
+    ],
+    "created": "2024-10-31T10:45:00Z"
+  },
+  {
+    "restaurantName": "City Clubhouse",
+    "password": "CityClub#123",
+    "phoneNumber": "5678901234",
+    "address": "1212 Club St, Metropolis",
+    "ownerName": "Ryan Carter",
+    "type": [
+      "club"
+    ],
+    "created": "2024-10-31T10:45:00Z"
+  },
+  {
+    "restaurantName": "Tandoor Junction",
+    "password": "T@ndo0r567",
+    "phoneNumber": "6789012345",
+    "address": "1313 Spicy Ln, Townsville",
+    "ownerName": "Aarav Desai",
+    "type": [
+      "dhaba",
+      "family restaurant"
+    ],
+    "created": "2024-10-31T10:45:00Z"
+  },
+  {
+    "restaurantName": "Celebration Hub",
+    "password": "Celebr@te2024",
+    "phoneNumber": "7890123456",
+    "address": "1414 Party Rd, Uptown",
+    "ownerName": "Daisy Palmer",
+    "type": [
+      "events"
+    ],
+    "created": "2024-10-31T10:45:00Z"
+  }
+]

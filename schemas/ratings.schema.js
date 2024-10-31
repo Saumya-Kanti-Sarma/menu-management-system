@@ -16,12 +16,10 @@ const ratingsSchema = mongoose.Schema({
     default: 0,
   },
   like: {
-    type: Number,
-    default: 0,
+    type: [String],
   },
   dislike: {
-    type: Number,
-    default: 0,
+    type: [String],
   },
 })
 
