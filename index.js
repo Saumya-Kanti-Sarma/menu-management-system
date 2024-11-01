@@ -30,6 +30,45 @@ app.use('/customer/ratings', ratingsRoutes);// customer route
 
 //app set-up
 app.listen(PORT, () => { console.log(`server running at http://localhost:${PORT}`) })
-app.get("/", (req, res) => { res.send("hello world") })
+app.get("/", (req, res) => {
+  res.send({
+    success: true,
+    message: "Welcome to our restaurant menu management system",
+    createdBy: [
+      { backendAndSystemDesign: "Saumya Kanti Sarma" }, { ArtificualIntelligenceIntigration: "Archiman Nath Chakrabharti" }
+    ],
+    routes: [
+      {
+        restaurantRoutes: {
+          createRestaurant: "https://menu-management-system-a4jn.onrender.com/restaurant/create-account",
+          loginRestaurant: "https://menu-management-system-a4jn.onrender.com/restaurant/login",
+        }
+
+      },
+      {
+        customerRoutes: {
+          createCustomer: "https://menu-management-system-a4jn.onrender.com/customer/create-account",
+          login: "https://menu-management-system-a4jn.onrender.com/customer/update-account/:id",
+        }
+      },
+      {
+        menuRoutes: {
+          AllMenu: "https://menu-management-system-a4jn.onrender.com/restaurant/menu/all-items/:id",
+          Add: "https://menu-management-system-a4jn.onrender.com/restaurant/menu/add-menu/:id",
+          edit: "https://menu-management-system-a4jn.onrender.com/restaurant/menu/edit-menu/:id",
+          delete: "https://menu-management-system-a4jn.onrender.com/restaurant/menu/delete-menu/:id/",
+        }
+
+      },
+      {
+        ratings: {
+          makeRatings: "https://menu-management-system-a4jn.onrender.com/customer/ratings/add-review/:dishID/:customerID",
+          makeRatings: "https://menu-management-system-a4jn.onrender.com/customer/ratings/average-stars/:dishID",
+        }
+      }
+    ]
+
+  })
+})
 
 
