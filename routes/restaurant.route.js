@@ -44,38 +44,44 @@ router.post('/login', async (req, res) => {
   try {
     const { restaurantName, password, phoneNumber } = req.body;
 
+    // Check if either restaurant name or phone number is provided along with the password
     if ((!restaurantName && !phoneNumber) || !password) {
       return res.status(400).send({
         message: "Please provide a restaurant name or phone number along with the password."
       });
     }
-    // login with restarant name
-    if (restaurantName && password) {
-      const checkName = await restaurantData.findOne({ restaurantName });
-      if (!checkName) {
-        return res.status(404).send({
-          message: "No account with the provided name found"
-        });
-      }
 
-      const comparePassword = await bcrypt.compare(password, checkName.password);
-      if (comparePassword) {
-        return res.status(200).send({
-          message: `Welcome back ${checkName.restaurantName}`,
-        });
-      } else {
-        return res.status(400).send({
-          message: "Password is incorrect"
-        });
-      }
+    // Find the user by restaurant name or phone number
+    const user = await restaurantData.findOne({ $or: [{ restaurantName }, { phoneNumber }] });
+
+    // If the user is not found, respond with an error
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found. Please check your credentials."
+      });
+    }
+
+    // Compare password
+    const comparePassword = await bcrypt.compare(password, user.password);
+    if (comparePassword) {
+      res.status(200).send({
+        message: "Login successful",
+        data: `Welcome back ${user.restaurantName}`
+      });
+    } else {
+      // Respond with an error if the password does not match
+      return res.status(401).send({
+        message: "Invalid password. Please try again."
+      });
     }
   } catch (error) {
-    res.status(400).send({
+    res.status(500).send({
       message: "Error in login, please try again later",
       error: error.message,
     });
   }
 });
+
 
 // Route to delete an account
 router.delete('/delete', (req, res) => {

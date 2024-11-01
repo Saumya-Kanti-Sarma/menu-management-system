@@ -2,3 +2,5 @@ node_modules
 test.html
 test.js
 .env
+restaurant.json
+gpt.txt

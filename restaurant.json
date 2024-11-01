@@ -5,9 +5,7 @@
     "phoneNumber": "6789012345",
     "address": "4044 Spice St, Flavortown",
     "ownerName": "Amir Khan",
-    "type": [
-      "family restaurant"
-    ],
+    "type": "family restaurant",
     "created": "2024-10-31T10:45:00Z"
   },
   {
