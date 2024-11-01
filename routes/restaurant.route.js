@@ -6,7 +6,7 @@ import bcrypt from "bcrypt"
 // Route to create an account
 router.post('/create-account', async (req, res) => {
   try {
-    const { restaurantName, password, phoneNumber, address, ownerName } = req.body; // remove parentheses
+    const { restaurantName, password, phoneNumber, address, ownerName, type } = req.body; // remove parentheses
     // Check if required fields are present
     if (!restaurantName || !password || !phoneNumber || !address || !ownerName) {
       return res.status(400).send({ message: "All fields are required" });
@@ -17,6 +17,15 @@ router.post('/create-account', async (req, res) => {
     const hashedPhoneNumber = await bcrypt.hash(phoneNumber, 10);
     const hashedAddress = await bcrypt.hash(address, 10);
 
+    // check if restaurant is already registered:
+    const checkRegistration = await restaurantData.findOne({ restaurantName });
+    if (checkRegistration) {
+      res.send({
+        message: "cannot register new account",
+        data: "account name already registered!"
+      })
+    }
+
     // Create a new restaurant document
     const data = new restaurantData({
       restaurantName,
@@ -24,6 +33,7 @@ router.post('/create-account', async (req, res) => {
       phoneNumber: hashedPhoneNumber,
       address: hashedAddress,
       ownerName,
+      type
     });
     const response = await data.save();
 

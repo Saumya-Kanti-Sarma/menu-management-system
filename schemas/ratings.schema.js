@@ -30,5 +30,14 @@ const ratingsSchema = new mongoose.Schema({
     ref: "Customer",
   },
 });
+ratingsSchema.index(
+  {
+    customerID: 1,
+    dishID: 1
+  },
+  {
+    unique: true
+  }
+);
 
-export const Ratings = mongoose.model("Ratings", ratingsSchema);
+export const ratingsData = mongoose.model("Ratings", ratingsSchema);

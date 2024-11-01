@@ -7,11 +7,11 @@ const router = express.Router();
 // Create Account Route
 router.post("/create-account", async (req, res) => {
   try {
-    const { name, phoneNumber } = req.body;
+    const { name, phoneNumber, password } = req.body;
 
     // Validate request body
     if (!name || !phoneNumber) {
-      return res.status(400).send({
+      return res.send({
         message: "Both name and Phone number are required",
       });
     }
@@ -19,15 +19,18 @@ router.post("/create-account", async (req, res) => {
     // Check if customer with the same phone number already exists
     const existingNumber = await customerData.findOne({ phoneNumber });
     if (existingNumber) {
-      return res.status(400).send({
+      return res.send({
         message: "Phone number already registered. Please login.",
       });
     }
 
+    // encrypt new password
+    const hashedPassword = await bcrypt.hash(password, 10);
     // Create new customer
     const newCustomer = new customerData({
       name,
       phoneNumber,
+      password: hashedPassword
     });
 
     const savedCustomer = await newCustomer.save();
@@ -46,35 +49,27 @@ router.post("/create-account", async (req, res) => {
 // Login Route
 router.post("/login", async (req, res) => {
   try {
-    const { phoneNumber, name } = req.body;
-
-    // Validate request body
-    if (!phoneNumber || !name) {
-      return res.send({
-        message: "Both name and phone number are required.",
-      });
-    }
-
+    const { phoneNumber, name, password } = req.body;
     // Check if the customer exists with the provided phone number
-    const customerName = await customerData.findOne({ name });
-    const customerPhone = await customerData.findOne({ phoneNumber });
-    const validDetails = await customerData.findOne({ name, phoneNumber });
-    if (!customerName) {
+    const validDetails = await customerData.findOne({ $or: [{ name }, { phoneNumber }] });
+    if (!validDetails) {
       return res.status(404).send({
-        message: "No account found with the provided Name.",
+        message: "No account found with the provided details.",
       });
     }
-    if (!customerPhone) {
-      return res.status(404).send({
-        message: "No account found with the provided Phone Number.",
-      });
+    // compare password and proceed for login
+    const comparePassword = await bcrypt.compare(password, validDetails.password);
+    if (comparePassword) {
+      res.send({
+        status: true,
+        data: `welcome back ${validDetails.name}`
+      })
     }
-
-    if (validDetails) {
-      res.status(200).send({
-        message: `Welcome back, ${validDetails.name}!`,
-        data: validDetails,
-      });
+    else {
+      res.send({
+        status: false,
+        data: `wrong password. Please try again.`
+      })
     }
   } catch (error) {
     res.status(500).send({
@@ -88,14 +83,7 @@ router.post("/login", async (req, res) => {
 router.put("/update-account/:id", async (req, res) => {
   try {
     const id = req.params.id; // Get customer ID from URL parameters
-    const { name, phoneNumber } = req.body; // Destructure the new name and phone number from the request body
-
-    // Validate request body
-    if (!name && !phoneNumber) {
-      return res.status(400).send({
-        message: "At least one field (name or phone number) must be provided for update.",
-      });
-    }
+    const { name, phoneNumber, password } = req.body;
 
     // Find the customer by ID
     const customer = await customerData.findById(id);
@@ -104,22 +92,17 @@ router.put("/update-account/:id", async (req, res) => {
         message: "Customer not found.",
       });
     }
-
     // Update name if provided
     if (name) {
       customer.name = name;
     }
-
     // Update phone number if provided
     if (phoneNumber) {
-      // Check if the new phone number is already registered
-      const existingCustomer = await customerData.findOne({ phoneNumber });
-      if (existingCustomer) {
-        return res.status(400).send({
-          message: "Phone number already registered. Please use a different number.",
-        });
-      }
       customer.phoneNumber = phoneNumber;
+    }
+    // Update phone number if provided
+    if (password) {
+      customer.password = password;
     }
 
     // Save the updated customer record

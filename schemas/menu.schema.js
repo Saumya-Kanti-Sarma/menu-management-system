@@ -35,4 +35,4 @@ menuSchema.index(
   }
 );
 
-export const Menu = mongoose.model("Menu", menuSchema);
+export const menuData = mongoose.model("Menu", menuSchema);

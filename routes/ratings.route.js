@@ -10,20 +10,15 @@ route.post("/add-review/:dishID/:customerID", async (req, res) => {
   try {
     const { dishID, customerID } = req.params; // Access parameters directly
     const { review, stars } = req.body;
-
-    const customer = await customerData.findById(customerID);
-    const nameOfCustomer = await customer.name;
-
     // Validate request body
     if (!customerID || !dishID) {
       return res.status(400).send({
         message: "Customer name and dish ID are required.",
       });
     }
-
     // Create new review
     const newReview = new ratingsData({
-      customerName: nameOfCustomer,
+      customerID: customerID,
       dishID: dishID,
       review,
       stars,
@@ -35,10 +30,13 @@ route.post("/add-review/:dishID/:customerID", async (req, res) => {
       data: savedReview,
     });
   } catch (error) {
-    res.status(500).send({
-      message: "Error adding review, please try again later.",
-      error: error.message,
-    });
+    if (error.code === 11000) { // Handle duplicate key error
+      res.status(400).json({
+        error: "A rating already exists. Please update the existing rating instead.",
+      });
+    } else {
+      res.status(500).json({ error: error });
+    }
   }
 });
 // Route to delete a review for a dish

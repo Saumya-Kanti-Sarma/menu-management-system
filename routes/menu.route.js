@@ -1,7 +1,7 @@
 import express from "express"
 import { menuData } from "../schemas/menu.schema.js"
 import { restaurantData } from "../schemas/restaurant.schema.js"
-
+import mongoose from "mongoose";
 const router = express.Router();
 
 router.post("/add-menu/:id", async (req, res) => { // we are serching the id into the database to get the name of restaurant
@@ -25,13 +25,11 @@ router.post("/add-menu/:id", async (req, res) => { // we are serching the id int
         message: `Dish name "${dishName}" already exists for this restaurant.`,
       });
     }
-
-    const nameOfRestaurant = await restaurant.restaurantName;
     const data = new menuData({
       dishName,
       price,
       available,
-      menuOf: nameOfRestaurant,
+      restaurantId: id,
       image
     })
     const response = await data.save()
@@ -107,14 +105,7 @@ router.delete("/delete-menu/:id/", async (req, res) => {
 router.get("/all-items/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const restaurant = await restaurantData.findById(id);
-    if (!restaurant) {
-      return res.status(404).send({
-        message: "Invalid restaurant ID.",
-      });
-    }
-
-    const menus = await menuData.find({ menuOf: restaurant.restaurantName });
+    const menus = await menuData.find({ restaurantId: id });
     res.status(200).send({
       message: "Menus retrieved successfully",
       data: menus,

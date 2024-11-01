@@ -5,8 +5,7 @@
     "phoneNumber": "6789012345",
     "address": "4044 Spice St, Flavortown",
     "ownerName": "Amir Khan",
-    "type": "family restaurant",
-    "created": "2024-10-31T10:45:00Z"
+    "type": "family restaurant"
   },
   {
     "restaurantName": "The Dining Room",
@@ -17,8 +16,7 @@
     "type": [
       "events",
       "club"
-    ],
-    "created": "2024-10-31T10:45:00Z"
+    ]
   },
   {
     "restaurantName": "Farmhouse Dhaba",
@@ -28,8 +26,7 @@
     "ownerName": "Sandeep Singh",
     "type": [
       "dhaba"
-    ],
-    "created": "2024-10-31T10:45:00Z"
+    ]
   },
   {
     "restaurantName": "Urban Eatery",
@@ -40,8 +37,7 @@
     "type": [
       "club",
       "events"
-    ],
-    "created": "2024-10-31T10:45:00Z"
+    ]
   },
   {
     "restaurantName": "Culinary Delights",
@@ -52,8 +48,7 @@
     "type": [
       "family restaurant",
       "events"
-    ],
-    "created": "2024-10-31T10:45:00Z"
+    ]
   },
   {
     "restaurantName": "Metro Bites",
@@ -63,8 +58,7 @@
     "ownerName": "Oliver Martinez",
     "type": [
       "events"
-    ],
-    "created": "2024-10-31T10:45:00Z"
+    ]
   },
   {
     "restaurantName": "Chef’s Table",
@@ -74,8 +68,7 @@
     "ownerName": "Sophia Lee",
     "type": [
       "family restaurant"
-    ],
-    "created": "2024-10-31T10:45:00Z"
+    ]
   },
   {
     "restaurantName": "City Clubhouse",
@@ -85,8 +78,7 @@
     "ownerName": "Ryan Carter",
     "type": [
       "club"
-    ],
-    "created": "2024-10-31T10:45:00Z"
+    ]
   },
   {
     "restaurantName": "Tandoor Junction",
@@ -97,8 +89,7 @@
     "type": [
       "dhaba",
       "family restaurant"
-    ],
-    "created": "2024-10-31T10:45:00Z"
+    ]
   },
   {
     "restaurantName": "Celebration Hub",
@@ -108,7 +99,6 @@
     "ownerName": "Daisy Palmer",
     "type": [
       "events"
-    ],
-    "created": "2024-10-31T10:45:00Z"
+    ]
   }
 ]
