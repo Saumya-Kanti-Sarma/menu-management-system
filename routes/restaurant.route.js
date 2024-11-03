@@ -92,6 +92,32 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// route to get all restaurants
+router.get('/allrestaurant/:from/:to', async (req, res) => {
+  try {
+    const from = parseInt(req.params.from, 0);
+    const to = parseInt(req.params.to, 10);
+
+    // Calculate the number of documents to fetch
+    const limit = to - from + 1;
+
+    // Fetch restaurants with skip and limit
+    const restaurants = await restaurantData.find()
+      .skip(from)
+      .limit(limit);
+
+    res.status(200).send({
+      success: true,
+      data: restaurants
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: 'Error fetching restaurants',
+      error: error.message
+    });
+  }
+});
 
 // Route to delete an account
 router.delete('/delete', (req, res) => {

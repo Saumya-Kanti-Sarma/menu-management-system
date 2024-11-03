@@ -119,4 +119,50 @@ router.put("/update-account/:id", async (req, res) => {
   }
 });
 
+// route to get all customer
+router.get('/allcustomer/:from/:to', async (req, res) => {
+  try {
+    const from = parseInt(req.params.from, 0);
+    const to = parseInt(req.params.to, 10);
+
+    // Calculate the number of documents to fetch
+    const limit = to - from + 1;
+
+    // Fetch restaurants with skip and limit
+    const restaurants = await customerData.find()
+      .skip(from)
+      .limit(limit);
+
+    res.status(200).send({
+      success: true,
+      data: restaurants
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: 'Error fetching customers',
+      error: error.message
+    });
+  }
+});
+
+// route to insert many restaurant 
+router.post("/insert-many", async (req, res) => {
+  try {
+    const data = req.body;
+    const uploadData = await customerData.insertMany(data);
+    if (uploadData) {
+      res.send({
+        success: true,
+        data: uploadData
+      })
+    }
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      error: error
+    })
+  }
+})
+
 export default router;

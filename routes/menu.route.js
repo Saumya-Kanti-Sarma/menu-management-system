@@ -38,10 +38,18 @@ router.post("/add-menu/:id", async (req, res) => { // we are serching the id int
       data: response
     })
   } catch (error) {
-    res.status(400).send({
-      message: "Something went wrong, please try again later",
-      error: error.message,
-    });
+    if (error.code == 11000) {
+      res.send({
+        success: false,
+        data: "item already exist"
+      })
+    }
+    else {
+      res.status(400).send({
+        message: "Something went wrong, please try again later",
+        error: error.message,
+      });
+    }
   }
 
 })
@@ -117,5 +125,25 @@ router.get("/all-items/:id", async (req, res) => {
     });
   }
 });
+
+
+// route to insert many menus 
+router.post("/insert-many", async (req, res) => {
+  try {
+    const data = req.body;
+    const uploadData = await menuData.insertMany(data);
+    if (uploadData) {
+      res.send({
+        success: true,
+        data: uploadData
+      })
+    }
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      error: error
+    })
+  }
+})
 
 export default router
