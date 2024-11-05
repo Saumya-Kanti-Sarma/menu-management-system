@@ -32,6 +32,9 @@ const restaurantSchema = new mongoose.Schema({
     type: String,
     default: Date(),
   },
+  token: {
+    type: String
+  },
   embedding: {
     type: [Number],
     index: "2dsphere",

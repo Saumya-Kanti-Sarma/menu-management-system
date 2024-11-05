@@ -25,6 +25,8 @@ router.post('/create-account', async (req, res) => {
         data: "account name already registered!"
       })
     }
+    // generate token 
+    const token = `${ownerName + Date.now()}`;
 
     // Create a new restaurant document
     const data = new restaurantData({
@@ -33,7 +35,8 @@ router.post('/create-account', async (req, res) => {
       phoneNumber: hashedPhoneNumber,
       address: hashedAddress,
       ownerName,
-      type
+      type,
+      token: token
     });
     const response = await data.save();
 
