@@ -1,0 +1,93 @@
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.login-container label {
+  display: block;
+  margin: 10px 0 5px;
+  color: #555;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.login-container button:hover {
+  background-color: #45a049;
+}
+
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-container input {
+  width: 100%;
+  padding-right: 35px;
+  /* Space for the lock icon */
+}
+
+.toggle-password-icon {
+  position: absolute;
+  right: 10px;
+  top: 20%;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+
+/* HTML: <div class="loader"></div> */
+.loader-area-log {
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: #13131383;
+  backdrop-filter: blur(3px);
+}
+
+.log-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50, -50);
+  --d: 40px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  color: #ffffff;
+  box-shadow:
+    calc(1*var(--d)) calc(0*var(--d)) 0 0,
+    calc(0.707*var(--d)) calc(0.707*var(--d)) 0 1px,
+    calc(0*var(--d)) calc(1*var(--d)) 0 2px,
+    calc(-0.707*var(--d)) calc(0.707*var(--d)) 0 3px,
+    calc(-1*var(--d)) calc(0*var(--d)) 0 4px,
+    calc(-0.707*var(--d)) calc(-0.707*var(--d))0 5px,
+    calc(0*var(--d)) calc(-1*var(--d)) 0 6px;
+  animation: l27 0.87s infinite steps(8);
+}
+
+@keyframes l27 {
+  100% {
+    transform: rotate(1turn)
+  }
+}
