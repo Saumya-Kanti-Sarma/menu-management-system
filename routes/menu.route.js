@@ -126,24 +126,42 @@ router.get("/all-items/:id", async (req, res) => {
   }
 });
 
-
-// route to insert many menus 
-router.post("/insert-many", async (req, res) => {
+// route to get one menu
+router.get("/get-one/:restaurantID/:menuID", async (req, res) => {
   try {
-    const data = req.body;
-    const uploadData = await menuData.insertMany(data);
-    if (uploadData) {
-      res.send({
+    const { restaurantID, menuID } = req.params;
+    const findMenu = await menuData.findById(menuID);
+
+    if (!findMenu) {
+      // Return 404 if the menu is not found
+      return res.status(404).send({
+        success: false,
+        message: "Menu not found"
+      });
+    }
+
+    if (findMenu.restaurantId.toString() === restaurantID) {
+      // Return the menu data if the restaurant ID matches
+      return res.send({
         success: true,
-        data: uploadData
-      })
+        data: findMenu
+      });
+    } else {
+      // Return a 400 status if the restaurant ID does not match
+      return res.status(400).send({
+        success: false,
+        message: "The restaurant ID and menu ID do not match"
+      });
     }
   } catch (error) {
+    // Handle other errors
     res.status(500).send({
       success: false,
-      error: error
-    })
+      message: "An error occurred while retrieving the menu",
+      error: error.message
+    });
   }
-})
+});
+
 
 export default router

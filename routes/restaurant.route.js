@@ -78,8 +78,8 @@ router.post('/login', async (req, res) => {
     const comparePassword = await bcrypt.compare(password, user.password);
     if (comparePassword) {
       res.status(200).send({
-        message: "Login successful",
-        data: `Welcome back ${user.restaurantName}`
+        message: `Welcome back ${user.restaurantName}`,
+        data: user
       });
     } else {
       // Respond with an error if the password does not match

@@ -54,6 +54,7 @@ app.get("/", (req, res) => {
       {
         menuRoutes: {
           AllMenu: "https://menu-management-system-a4jn.onrender.com/restaurant/menu/all-items/:id",
+          OneMenu: "https://menu-management-system-a4jn.onrender.com/restaurant/menu/get-one/:id-of-restaurant/:menu-id",
           Add: "https://menu-management-system-a4jn.onrender.com/restaurant/menu/add-menu/:id",
           edit: "https://menu-management-system-a4jn.onrender.com/restaurant/menu/edit-menu/:id",
           delete: "https://menu-management-system-a4jn.onrender.com/restaurant/menu/delete-menu/:id/",
