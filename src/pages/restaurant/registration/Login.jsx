@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import "../css/Login.css";
 import axios from 'axios';
-
+import Cookies from "js-cookie"
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [displayLoader, setDisplayLoader] = useState("none");
   const [data, setData] = useState({
@@ -11,6 +12,8 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [img, setImg] = useState("close-eye.svg"); // State to toggle password visibility
+
+  const navigate = useNavigate()
 
   const handleInputChange = (field, value) => {
     setData({ ...data, [field]: value });
@@ -21,13 +24,23 @@ const Login = () => {
       setDisplayLoader("block");
       const toastId = toast.loading("Logging in... Please wait");
       try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}restaurant/login`, data);
+        console.log(import.meta.env.VITE_BACKEND_URL);
+
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/restaurant/login`, data);
         toast.success(`Welcome back, ${data.restaurantName}!`);
         toast.dismiss(toastId);
         setDisplayLoader("none");
+        Cookies.set('RestaurantCredentialToken', response.data.data.token, { expires: 365 });
+        //console.log(response);
+        const name = response.data.data.restaurantName.replace(/ /g, "-");// Format the restaurant name by replacing spaces with hyphens
+
+        // Navigate to the restaurant's page
+        navigate(`/restaurant/${name}/${response.data.data._id}`);
       } catch (error) {
         toast.error(error.response?.data?.message || "Failed to login");
         toast.dismiss(toastId);
+        //console.log(error);
+
         setDisplayLoader("none");
       }
     } else {
@@ -50,7 +63,7 @@ const Login = () => {
           {/* Restaurant Name Input */}
           <label>Restaurant Name or Phone Number:</label>
           <input
-            type="text"
+            type="name"
             value={data.restaurantName}
             onChange={(e) => handleInputChange("restaurantName", e.target.value)}
             placeholder="Enter name of the Restaurant"

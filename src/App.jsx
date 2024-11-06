@@ -18,6 +18,7 @@ import NotFound from './pages/NotFound';
 import CreateMenu from './pages/restaurant/CreateMenu';
 import ViewMenu from './pages/customer/ViewMenu';
 import DeleteMenu from './pages/restaurant/DeleteMenu';
+import DishDetail from './pages/restaurant/DishDetail.jsx';
 
 function App() {
   return (
@@ -39,7 +40,9 @@ function App() {
           <Route path="/restaurant/register-restaurant" element={<Registration />} />
           <Route path="/restaurant/login" element={<Login />} />
 
-          <Route path="/restaurant" element={<RestaurantHome />}>
+          <Route path="/restaurant/:nameOfRestaurant/:idOfRestaurant">
+            <Route path="menu/" element={<RestaurantHome />} />
+            <Route path="menu/get-one/:idOfDish" element={<DishDetail />} />
             <Route path="create-menu/:idOfRestaurant" element={<CreateMenu />} />
             <Route path="view-menu/:idOfRestaurant" element={<ViewMenu />} />
             <Route path="edit-menu/:idOfRestaurant/:idOfMenu" element={<ViewMenu />} />
