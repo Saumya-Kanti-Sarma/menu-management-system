@@ -8,6 +8,7 @@
   max-width: 800px;
   margin: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 200px;
 }
 
 /* Image section */
@@ -75,6 +76,10 @@
   cursor: pointer;
 }
 
+.btn:hover {
+  opacity: 0.88;
+}
+
 .edit-btn {
   background-color: #4CAF50;
   color: white;
@@ -138,6 +143,9 @@
 .res-ratings-area {
   display: flex;
   flex-direction: column;
+  min-height: 600px;
+  height: calc(95vh - 280px);
+  overflow-y: scroll;
 }
 
 .reviews {
@@ -147,17 +155,33 @@
   background-color: #fff;
   padding: 10px;
   border-radius: 5px;
+  margin-top: 10px;
 }
 
-.reviews div {
+.review-child {
   display: flex;
   justify-content: start;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
 
 .reviews img {
   width: 50px;
   height: 50px;
   border-radius: 100%;
+}
+
+.notification-btn {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.ratings-star {
+  background-color: #fff;
+  display: flex;
+  padding-left: 15px;
+  font-size: 20px;
 }

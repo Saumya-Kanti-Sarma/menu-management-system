@@ -7,8 +7,18 @@ function Home() {
     <div>
       <h1>Welcome to the App</h1>
       <nav>
-        <Link to="/customer">Customer Portal</Link>
-        <Link to="/restaurant">Restaurant Portal</Link>
+        <Link to={"/restaurant/register-restaurant"}>Register Restaurant</Link> <br />
+        <Link to={"/restaurant/login"}>Login Restaurant</Link><br />
+        <Link to={"/restaurant/:nameOfRestaurant/:idOfRestaurant/menu/"}>View Menu</Link><br />
+        <Link to={"/"}></Link>
+        <Link to={"/"}></Link>
+        <Link to={"/"}></Link>
+        <Link to={"/"}></Link>
+        <Link to={"/"}></Link>
+        <Link to={"/"}></Link>
+        <Link to={"/"}></Link>
+        <Link to={"/"}></Link>
+        <Link to={"/"}></Link>
       </nav>
     </div>
   );
