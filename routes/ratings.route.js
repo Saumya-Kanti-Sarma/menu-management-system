@@ -84,7 +84,7 @@ route.get("/average-stars/:dishID", async (req, res) => {
 
     // If no ratings found, return a default response
     if (result.length === 0) {
-      return res.status(404).send({
+      return res.send({
         message: "No ratings found for this dish.",
         averageStars: 0,
       });
@@ -103,5 +103,22 @@ route.get("/average-stars/:dishID", async (req, res) => {
   }
 });
 
+// route to get all ratings of a particular dish
+route.get("/all-ratings/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await ratingsData.find({ dishID: id });
+    res.status(200).send({
+      success: true,
+      data: response,
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      error: error.message,
+    });
+  }
 
+
+})
 export default route;
