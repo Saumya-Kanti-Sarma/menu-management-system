@@ -26,7 +26,7 @@ const Login = () => {
       try {
         console.log(import.meta.env.VITE_BACKEND_URL);
 
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}restaurant/login`, data);
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/restaurant/login`, data);
         toast.success(`Welcome back, ${data.restaurantName}!`);
         toast.dismiss(toastId);
         setDisplayLoader("none");

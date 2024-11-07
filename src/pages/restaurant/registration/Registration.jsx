@@ -73,7 +73,7 @@ const Registration = () => {
       // console.log(import.meta.env.VITE_BACKEND_URL);
       setDisplayLoader("block")
       try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}restaurant/create-account`, data);
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/restaurant/create-account`, data);
         toast.success(response.data.msg); // Show success message
         console.log(response.data);
         toast.dismiss(toastId)
