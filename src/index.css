@@ -3,3 +3,14 @@
   padding: 0;
   font-family: sans-serif;
 }
+
+.readmore {
+  border: none;
+  background-color: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.readmore:hover {
+  color: #c23a3a;
+}

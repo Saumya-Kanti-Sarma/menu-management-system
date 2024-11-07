@@ -35,7 +35,7 @@ const Login = () => {
         const name = response.data.data.restaurantName.replace(/ /g, "-");// Format the restaurant name by replacing spaces with hyphens
 
         // Navigate to the restaurant's page
-        navigate(`/restaurant/${name}/${response.data.data._id}`);
+        navigate(`/restaurant/${name}/${response.data.data._id}/menu`);
       } catch (error) {
         toast.error(error.response?.data?.message || "Failed to login");
         toast.dismiss(toastId);

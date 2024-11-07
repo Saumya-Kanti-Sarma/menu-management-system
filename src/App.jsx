@@ -2,7 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-
+import { ToastContainer } from "react-toastify"
 import Home from './pages/Home';
 import CustomerHome from './pages/customer/CustomerHome';
 import CustomerRegister from './pages/customer/Register';
@@ -24,6 +24,7 @@ function App() {
   return (
     <>
       <Toaster />
+      <ToastContainer />
       <Router>
         <Routes>
           {/* Main Home Page */}
