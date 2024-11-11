@@ -1,10 +1,9 @@
 import express from "express"
 import { menuData } from "../schemas/menu.schema.js"
-import { restaurantData } from "../schemas/restaurant.schema.js"
-import mongoose from "mongoose";
+import { restaurantData } from "../schemas/restaurant.schema.js";
 const router = express.Router();
 
-router.post("/add-menu/:id", async (req, res) => { // we are serching the id into the database to get the name of restaurant
+router.post("/add-menu/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const { dishName, price, image, available } = req.body;
@@ -39,17 +38,18 @@ router.post("/add-menu/:id", async (req, res) => { // we are serching the id int
     })
   } catch (error) {
     if (error.code == 11000) {
-      res.send({
-        success: false,
-        data: "item already exist"
+      res.status(200).send({
+        meaage: "Dish Already exist"
       })
-    }
-    else {
+    } else {
+
       res.status(400).send({
-        message: "Something went wrong, please try again later",
-        error: error.message,
+        message: "Error updating menu item",
+        error: error,
       });
     }
+
+
   }
 
 })
@@ -159,6 +159,31 @@ router.get("/get-one/:restaurantID/:menuID", async (req, res) => {
       success: false,
       message: "An error occurred while retrieving the menu",
       error: error.message
+    });
+  }
+});
+
+
+// Route to fetch all available or unavailable dishes for a restaurant
+router.get("/:id&available=:status", async (req, res) => {
+  try {
+    const { id, status } = req.params;
+    const isAvailable = status === "true"; // Convert the 'available' parameter to a boolean
+
+    // Find dishes by restaurant ID and availability status
+    const dishes = await menuData.find({
+      restaurantId: id,
+      available: isAvailable,
+    });
+
+    res.status(200).send({
+      message: `Dishes retrieved successfully for availability status: ${status}`,
+      data: dishes,
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: "Error retrieving dishes",
+      error: error.message,
     });
   }
 });
