@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import './css/DishDetail.css';
+import { getStorage, ref, deleteObject } from "firebase/storage"; // Import Firebase storage
+
 function DishDetail() {
   // Get parameters from URL
   const { nameOfRestaurant, idOfRestaurant, idOfDish } = useParams();
@@ -59,6 +61,8 @@ function DishDetail() {
 
   // Handle dish deletion with confirmation
   const handleDeleteDish = async () => {
+    const storage = getStorage();
+    const imgRef = ref(storage, dish.image)
     toast((t) => (
       <span>
         Dish item will be permanently deleted. Are you sure?
@@ -67,20 +71,25 @@ function DishDetail() {
           <button
             className='btn edit-btn'
             onClick={() => {
-              toast.promise(
-                axios.delete(`${import.meta.env.VITE_BACKEND_URL}/restaurant/menu/delete-menu/${idOfDish}`),
-                {
-                  loading: 'Deleting...',
-                  success: 'Dish deleted successfully!',
-                  error: 'Failed to delete dish',
-                  duration: 1000,
-                }
-              )
-                .then(() => navigate(`/restaurant/${nameOfRestaurant}/${idOfRestaurant}/menu`))
-                .catch((error) => {
-                  toast.error("Cannot delete now... please check the console and try again later", { duration: 800, });
-                  console.log(error);
-                });
+              console.log(imgRef)
+              deleteObject(imgRef)
+                .then(() => {
+                  toast.promise(
+                    axios.delete(`${import.meta.env.VITE_BACKEND_URL}/restaurant/menu/delete-menu/${idOfDish}`),
+                    {
+                      loading: 'Deleting...',
+                      success: 'Dish deleted successfully!',
+                      error: 'Failed to delete dish',
+                      duration: 800,
+                    }
+                  )
+                    // .then(() => navigate(`/restaurant/${nameOfRestaurant}/${idOfRestaurant}/menu`))
+                    .catch((error) => {
+                      toast.error("Cannot delete now... please check the console and try again later", { duration: 800, });
+                      console.log(error);
+                    });
+                }).catch((error) => { toast.error("Firebase error... Please report this error"); console.log(error) })
+
             }}
           >
             Yes
