@@ -11,6 +11,7 @@ function RestaurantHome() {
 
   return (
     <>
+      <div className='do-not-display'> Currently, this version is available only in "Desktop Version", please use a desktop or a laptop to access the content </div>
       <RestaurantNavbar ParamName={nameOfRestaurant} ParamPage={"Restaurant"} />
       <div className="res-parent-wraper">
         <aside className='res-aside'>
