@@ -41,7 +41,6 @@ const Menu = () => {
   }, [idOfRestaurant, navigate]);
   return (
     <>
-
       {loading ? (
         <div className='menu-loader-parent'>
           <div className='def-loader menu-loades-main' ></div>

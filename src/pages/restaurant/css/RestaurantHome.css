@@ -1,8 +1,24 @@
+/* menu loader */
+
+.menu-loader-parent {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-loades-main {
+  width: 7px;
+}
+
+
 /* Parent container styling */
 .res-parent-wraper {
   display: flex;
   height: calc(100vh - 70px);
   width: 100vw;
+  justify-content: center;
 }
 
 .res-aside {
@@ -11,24 +27,25 @@
 
 .res-main {
   flex: 6;
-  overflow: hidden;
-  overflow-y: scroll;
+  overflow: auto;
+  margin: 0 auto;
+  justify-content: center;
+  /* background-color: #999; */
 }
 
 .parent-menu-container {
-  width: 95%;
-  margin: 0 auto;
+  width: 100%;
+  /* background-color: #4CAF50; */
   overflow: hidden;
   display: flex;
-  justify-content: center;
-  padding-left: 160px;
+  justify-content: space-between;
 }
 
 .menu-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  justify-content: start;
+  justify-content: center;
+  gap: 25px;
   width: 100%;
 
 }
@@ -98,16 +115,4 @@
     align-items: center;
   }
 
-}
-
-.menu-loader-parent {
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.menu-loades-main {
-  width: 7px;
 }

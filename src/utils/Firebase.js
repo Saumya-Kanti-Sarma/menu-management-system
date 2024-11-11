@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCQJIpykjceIx3KK_yfojXDsYeM2-keXdA",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "ommitus.firebaseapp.com",
   projectId: "ommitus",
   storageBucket: "ommitus.appspot.com",
-  messagingSenderId: "530215286990",
-  appId: "1:530215286990:web:14e5b1cf43d7b678a8b89f"
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGINGSENDER_ID,
+  appId: import.meta.env.VITE_APP_ID
 };
 
 // Initialize Firebase
