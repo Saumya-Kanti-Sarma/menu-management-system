@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import './css/DishDetail.css';
-
 function DishDetail() {
   // Get parameters from URL
   const { nameOfRestaurant, idOfRestaurant, idOfDish } = useParams();
@@ -74,11 +73,12 @@ function DishDetail() {
                   loading: 'Deleting...',
                   success: 'Dish deleted successfully!',
                   error: 'Failed to delete dish',
+                  duration: 1000,
                 }
               )
                 .then(() => navigate(`/restaurant/${nameOfRestaurant}/${idOfRestaurant}/menu`))
                 .catch((error) => {
-                  toast.error("Cannot delete now... please check the console and try again later");
+                  toast.error("Cannot delete now... please check the console and try again later", { duration: 800, });
                   console.log(error);
                 });
             }}
@@ -108,12 +108,13 @@ function DishDetail() {
                 {
                   loading: 'Deleting...',
                   success: 'Review deleted successfully!',
+                  duration: 4000,
                   error: 'Failed to delete review, try again later',
                 }
               )
                 .then(() => window.location.reload())
                 .catch((error) => {
-                  toast.error("Cannot delete now... please check the console and try again later");
+                  toast.error("Cannot delete now... please check the console and try again later", { duration: 4000, });
                   console.log(error);
                 });
             }}
@@ -189,26 +190,30 @@ function DishDetail() {
         <h1>Customer Reviews:</h1>
         {ratings && ratings.length > 0 ? (
           ratings.map((rating) => (
-            <div key={rating._id} className="reviews">
-              <div className='review-child'>
-                <img src={rating.customerProfile || "/profile.jpg"} alt="profile" className="profile-image" />
-                <div>
-                  <b>{rating.customerName || "Name"}</b>
-                  <p>
-                    {expandedReviews[rating._id]
-                      ? rating.review
-                      : `${rating.review.split(" ").slice(0, 35).join(" ")}...`}
-                    {rating.review.split(" ").length > 50 && (
-                      <button className="readmore" onClick={() => handleToggleReview(rating._id)}>
-                        {expandedReviews[rating._id] ? "Show less" : "Read more"}
-                      </button>
-                    )}
-                  </p>
+            <>
+
+              <div key={rating._id} className="reviews">
+                <div className='review-child'>
+                  <img src={rating.customerProfile || "/profile.jpg"} alt="profile" className="profile-image" />
+                  <div>
+                    <b>{rating.customerName || "Name"}</b>
+                    <p>
+                      {expandedReviews[rating._id]
+                        ? rating.review
+                        : `${rating.review.split(" ").slice(0, 35).join(" ")}...`}
+                      {rating.review.split(" ").length > 50 && (
+                        <button className="readmore" onClick={() => handleToggleReview(rating._id)}>
+                          {expandedReviews[rating._id] ? "Show less" : "Read more"}
+                        </button>
+                      )}
+                    </p>
+                  </div>
                 </div>
+                <button className="btn delete-btn" onClick={() => handleDeleteReview(rating._id)}>Delete</button>
+
               </div>
-              <button className="btn delete-btn" onClick={() => handleDeleteReview(rating._id)}>Delete</button>
               <div className="dish-rating ratings-star">{"★".repeat(rating.stars)}</div>
-            </div>
+            </>
           ))
         ) : (
           <b style={{ margin: "10px", display: 'flex', justifyContent: "center" }}>

@@ -1,17 +1,18 @@
 // src/pages/restaurant/RestaurantNavbar.jsx
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-
-function RestaurantNavbar() {
-  const { idOfRestaurant } = useParams();
+import "./css/Navbar.css"
+function RestaurantNavbar({ ParamName, ParamImg, ParamPage }) {
 
   return (
-    <nav>
-      <ul>
-        <li><Link to={`/restaurant/view-menu/${idOfRestaurant}`}>View Menu</Link></li>
-        <li><Link to={`/restaurant/edit-menu/${idOfRestaurant}/:id-of-menu`}>Edit Menu</Link></li>
-        <li><Link to={`/restaurant/delete-menu/${idOfRestaurant}/:id-of-menu`}>Delete Menu</Link></li>
-      </ul>
+    <nav className='navbar'>
+      <h1>Ommitus.com | {ParamPage}</h1>
+      <h2>
+        Welcome Back {ParamName}
+      </h2>
+      <div className='nav-profile'>
+        <img src={ParamImg || "/profile.jpg"} />
+        <h2>Profile</h2>
+      </div>
     </nav>
   );
 }

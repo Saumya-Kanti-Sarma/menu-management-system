@@ -1,14 +1,15 @@
 /* Main container */
 .dish-detail-container {
   display: flex;
+  width: 96%;
   flex-direction: column;
   padding: 20px;
   background-color: #f3f3f3;
   border-radius: 8px;
-  max-width: 800px;
   margin: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   height: 200px;
+  margin-top: 10px;
 }
 
 /* Image section */
@@ -156,6 +157,7 @@
   padding: 10px;
   border-radius: 5px;
   margin-top: 10px;
+  gap: 10px;
 }
 
 .review-child {
@@ -184,4 +186,5 @@
   display: flex;
   padding-left: 15px;
   font-size: 20px;
+  padding-right: 20px;
 }

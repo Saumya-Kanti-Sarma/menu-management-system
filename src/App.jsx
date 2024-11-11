@@ -16,9 +16,9 @@ import Login from './pages/restaurant/registration/Login.jsx';
 
 import NotFound from './pages/NotFound';
 import CreateMenu from './pages/restaurant/CreateMenu';
-import ViewMenu from './pages/customer/ViewMenu';
-import DeleteMenu from './pages/restaurant/DeleteMenu';
 import DishDetail from './pages/restaurant/DishDetail.jsx';
+import Menu from './pages/restaurant/Menu.jsx';
+import Available from './pages/restaurant/Available.jsx';
 
 function App() {
   return (
@@ -41,13 +41,12 @@ function App() {
           <Route path="/restaurant/register-restaurant" element={<Registration />} />
           <Route path="/restaurant/login" element={<Login />} />
 
-          <Route path="/restaurant/:nameOfRestaurant/:idOfRestaurant">
-            <Route path="menu/" element={<RestaurantHome />} />
+          <Route path="/restaurant/:nameOfRestaurant/:idOfRestaurant" element={<RestaurantHome />} >
+            <Route path="menu/" element={<Menu />} />
             <Route path="menu/get-one/:idOfDish" element={<DishDetail />} />
-            <Route path="create-menu/:idOfRestaurant" element={<CreateMenu />} />
-            <Route path="view-menu/:idOfRestaurant" element={<ViewMenu />} />
-            <Route path="edit-menu/:idOfRestaurant/:idOfMenu" element={<ViewMenu />} />
-            <Route path="delete-menu/:idOfRestaurant/:idOfMenu" element={<DeleteMenu />} />
+            <Route path="menu/create-menu/:idOfRestaurant" element={<CreateMenu />} />
+            <Route path="menu/available/:available" element={<Available />} />
+            {/* <Route path="delete-menu/:idOfRestaurant/:idOfMenu" element={<DeleteMenu />} /> */}
           </Route>
 
           {/* 404 Not Found Route */}
