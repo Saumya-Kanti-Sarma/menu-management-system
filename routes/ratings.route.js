@@ -2,6 +2,7 @@ import express from "express";
 import { ratingsData } from "../schemas/ratings.schema.js";
 import { menuData } from "../schemas/menu.schema.js";
 import { customerData } from "../schemas/customers.schema.js";
+import mongoose from "mongoose";
 
 const route = express.Router();
 
@@ -16,19 +17,26 @@ route.post("/add-review/:dishID/:customerID", async (req, res) => {
         message: "Customer name and dish ID are required.",
       });
     }
-    // Create new review
-    const newReview = new ratingsData({
-      customerID: customerID,
-      dishID: dishID,
-      review,
-      stars,
-    });
+    // check if customer is original or not
+    const validateCustomer = await customerData.findById(customerID);
+    if (validateCustomer) {
+      // Create new review
+      const newReview = new ratingsData({
+        customerID: customerID,
+        dishID: dishID,
+        customerName: validateCustomer.name,
+        review,
+        stars,
+      });
 
-    const savedReview = await newReview.save();
-    res.status(201).send({
-      message: "Review added successfully.",
-      data: savedReview,
-    });
+      const savedReview = await newReview.save();
+      res.status(201).send({
+        message: "Review added successfully.",
+        data: savedReview,
+
+      });
+    }
+
   } catch (error) {
     if (error.code === 11000) { // Handle duplicate key error
       res.status(400).json({
@@ -71,30 +79,39 @@ route.get("/average-stars/:dishID", async (req, res) => {
   try {
     const { dishID } = req.params;
 
-    // Aggregation pipeline to calculate the average stars
-    const result = await ratingsData.aggregate([
-      { $match: { dishID } }, // Filter by dishID
-      {
-        $group: {
-          _id: "$dishID",
-          averageStars: { $avg: "$stars" }, // Calculate the average of the stars field
-        },
-      },
-    ]);
-
-    // If no ratings found, return a default response
-    if (result.length === 0) {
+    // Check if the dish exists
+    const checkDishID = await menuData.findById(dishID);
+    if (!checkDishID) {
       return res.send({
-        message: "No ratings found for this dish.",
-        averageStars: 0,
+        success: false,
+        message: "Cannot find any dish with this ID",
+      });
+    } else {
+      // Convert dishID to ObjectId to ensure correct matching
+      const result = await ratingsData.aggregate([
+        { $match: { dishID: new mongoose.Types.ObjectId(dishID) } }, // Filter by dishID
+        {
+          $group: {
+            _id: "$dishID",
+            averageStars: { $avg: "$stars" }, // Calculate the average of the stars field
+          },
+        },
+      ]);
+
+      // If no ratings found, return a default response
+      if (result.length <= 0) {
+        return res.send({
+          message: "No ratings found for this dish.",
+          averageStars: 1,
+        });
+      }
+
+      res.status(200).send({
+        message: "Average stars calculated successfully.",
+        dishID: result[0]._id,
+        averageStars: result[0].averageStars,
       });
     }
-
-    res.status(200).send({
-      message: "Average stars calculated successfully.",
-      dishID: result[0]._id,
-      averageStars: result[0].averageStars,
-    });
   } catch (error) {
     res.status(500).send({
       message: "Error calculating average stars, please try again later.",
@@ -102,7 +119,6 @@ route.get("/average-stars/:dishID", async (req, res) => {
     });
   }
 });
-
 // route to get all ratings of a particular dish
 route.get("/all-ratings/:id", async (req, res) => {
   try {

@@ -15,19 +15,15 @@ const ratingsSchema = new mongoose.Schema({
     type: String,
     trim: true, // will remove blank space from the start and end.
   },
+  customerName: {
+    type: String,
+    trim: true, // will remove blank space from the start and end.
+  },
   stars: {
     type: Number,
     min: 0,
     max: 5,
     default: 0,
-  },
-  like: {
-    type: [mongoose.Schema.Types.ObjectId], // Array of customer IDs who liked
-    ref: "Customer",
-  },
-  dislike: {
-    type: [mongoose.Schema.Types.ObjectId], // Array of customer IDs who disliked
-    ref: "Customer",
   },
 });
 ratingsSchema.index(
