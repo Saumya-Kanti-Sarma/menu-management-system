@@ -7,9 +7,9 @@ const MenuDetail = () => {
   return (
     <>
       <div className='customer-menu-heading'>
-        <h2>Welcome to {nameOfRestaurant} dishes available with us:</h2>
+        <h2>| {nameOfRestaurant} |</h2>
       </div>
-      <main className='customer-menu-main'>
+      <main className='customer-menu-detail-main'>
         <DishDetailComponent
           DisplayEditAndDelete={"none"} DisplayAddReview={"flex"}
         />

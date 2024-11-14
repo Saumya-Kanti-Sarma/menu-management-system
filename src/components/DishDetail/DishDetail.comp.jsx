@@ -213,16 +213,20 @@ const DishDetailComponent = ({ DisplayEditAndDelete, DisplayAddReview }) => {
 
           {/* Add review area */}
           <div className="add-review" style={{ display: DisplayAddReview }}>
+
+            <section className='add-review-stars-area'>
+              <p> Rate Stars:</p> {"★".repeat(5)}
+            </section>
+
             <section className='add-review-review-area'>
               <textarea name="review">Your Feedback Is Very Important To Us...</textarea>
               <button className='btn edit-btn'>Submit</button>
             </section>
-            <section className='add-review-stars-area'>
-              {"★".repeat(5)}
-            </section>
+
           </div>
         </div>
       </div>
+      <br />
 
       {/* Customer Reviews Section */}
       <div className="dish-detail-container res-ratings-area">

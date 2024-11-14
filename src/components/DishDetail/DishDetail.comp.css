@@ -1,8 +1,8 @@
 /* Main container */
 .dish-detail-container {
   display: flex;
+  flex-wrap: wrap;
   width: calc(95vw - 15rem);
-  min-width: calc(95vw - 250px);
   flex-direction: column;
   padding: 20px;
   background-color: #f3f3f3;
@@ -10,7 +10,7 @@
   border-radius: 8px;
   margin: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 200px;
+  min-height: 200px;
   margin-top: 10px;
 }
 
@@ -31,6 +31,7 @@
 /* Info section */
 .dish-info-section {
   flex: 2;
+  flex-wrap: wrap;
   padding: 0 20px;
 }
 
@@ -122,12 +123,14 @@
   border-radius: 4px;
 }
 
+/* @media (min-width:1100px) {
+  .dish-detail-container {
+    width: 90vw;
+  }
+} */
+
 /* Responsive styling */
 @media (min-width: 768px) {
-  .dish-detail-container {
-    flex-direction: row;
-    padding: 0;
-  }
 
   .dish-image-section {
     margin-bottom: 0;
@@ -242,9 +245,88 @@
   padding: 10px;
   border-radius: 10px;
   border: none;
-  font-size: 17px;
+  font-size: 14px;
+}
+
+.add-review-review-area textarea::-webkit-scrollbar {
+  display: none;
 }
 
 .add-review-stars-area {
   font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-review-stars-area p {
+  margin-top: 8px;
+}
+
+
+@media (max-width:960px) {
+
+  .dish-detail-container {
+    padding: 10px;
+    width: 90vw;
+  }
+
+  .dish-info-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .add-review {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width:480px) {
+
+  .dish-info-section h2 {
+    font-size: 18px;
+  }
+
+  .dish-image-section img {
+    height: 220px;
+    width: 300px;
+  }
+
+  .add-review-review-area textarea {
+    flex: 3;
+  }
+
+  .add-review-stars-area p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width:400px) {
+
+  .dish-info-section h2 {
+    font-size: 18px;
+  }
+
+  .dish-image-section img {
+    height: 220px;
+    width: 90%;
+  }
+
+  .add-review-review-area textarea {
+    font-size: 12px;
+  }
+
+  .res-ratings-area h1 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .review-child b,
+  .review-child p {
+    font-size: 13px;
+  }
 }
