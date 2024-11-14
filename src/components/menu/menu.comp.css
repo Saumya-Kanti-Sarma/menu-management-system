@@ -1,0 +1,151 @@
+/* menu loader */
+
+.menu-loader-parent {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-loades-main {
+  width: 7px;
+}
+
+
+/* Parent container styling */
+.res-parent-wraper {
+  display: flex;
+  height: calc(100vh - 70px);
+  width: 100vw;
+  justify-content: center;
+}
+
+.res-aside {
+  flex: 1;
+}
+
+.res-main {
+  flex: 6;
+  overflow: auto;
+  margin: 0 auto;
+  justify-content: center;
+  /* background-color: #999; */
+}
+
+.parent-menu-container {
+  width: 100%;
+  /* background-color: #4CAF50; */
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  width: 100%;
+}
+
+/* Individual menu item styling */
+.menu-item {
+  flex: 1 1 calc(20% - 15px);
+  /* 5 items per row */
+  width: 300px;
+  height: 200px;
+  max-width: 300px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s;
+}
+
+.menu-item:hover {
+  transform: scale(1.02);
+}
+
+.menu-item img {
+  width: 90%;
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+/* Content within each item */
+.menu-item-content {
+  text-align: center;
+  width: 100%;
+}
+
+.menu-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-items: center;
+  width: 100%;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.menu-item-price {
+  color: #4CAF50;
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+.menu-item-availability {
+  color: #999;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+@media (max-width: 1000px) {
+  .menu-item-header {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+}
+
+@media (max-width: 780px) {
+  .menu-container {
+    justify-content: start;
+  }
+
+  .menu-item {
+    width: 300px;
+  }
+
+  .menu-item img {
+    height: 180px;
+    width: 180px;
+    object-fit: cover;
+  }
+
+
+}
+
+@media (max-width: 490px) {
+
+  .menu-item {
+    width: 200px;
+  }
+
+  .menu-item img {
+    height: 125px;
+    width: 155px;
+    object-fit: cover;
+  }
+
+
+}

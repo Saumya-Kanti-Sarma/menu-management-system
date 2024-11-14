@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import "../pages/restaurant/css/RestaurantHome.css"
+import "./menu.comp.css"
 
-const Menu = (fetchParams) => {
-  const { nameOfRestaurant, idOfRestaurant } = useParams();
+const MenuComponent = ({ mainUrl, onclickURL }) => {
   const [newMenuData, setNewMenuData] = useState([]);
   const [loading, setLoading] = useState(true); // State to manage loading status
   const navigate = useNavigate();
@@ -23,13 +22,14 @@ const Menu = (fetchParams) => {
       setLoading(true); // Show loading text
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/restaurant/menu/${fetchParams}/${idOfRestaurant}`
+          `${import.meta.env.VITE_BACKEND_URL}${mainUrl}`
         );
 
         if (response.status >= 200 && response.status < 300) {
           setNewMenuData(response.data.data);
         }
       } catch (error) {
+        console.error(`${import.meta.env.VITE_BACKEND_URL}${mainUrl}`);
         console.error("Error fetching menu data:", error);
         toast.error("Failed to load menu data");
       } finally {
@@ -38,7 +38,7 @@ const Menu = (fetchParams) => {
     };
 
     fetchData();
-  }, [idOfRestaurant, navigate]);
+  }, [navigate]);
   return (
     <>
 
@@ -52,7 +52,7 @@ const Menu = (fetchParams) => {
             <div className='parent-menu-container'>
               <div className="menu-container">
                 {newMenuData.map((item) => (
-                  <div key={item._id} className="menu-item" onClick={() => navigate(`/restaurant/${nameOfRestaurant}/${idOfRestaurant}/menu/get-one/${item._id}`)} >
+                  <div key={item._id} className="menu-item" onClick={() => navigate(`${onclickURL}/${item._id}`)} >
                     <img src={item?.image} alt={item.dishName} />
                     <div className="menu-item-content">
                       <div className="menu-item-header">
@@ -76,4 +76,4 @@ const Menu = (fetchParams) => {
   )
 }
 
-export default Menu
+export default MenuComponent
