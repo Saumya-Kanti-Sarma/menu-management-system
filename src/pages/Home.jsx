@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 function Home() {
   return (
     <div>
+      <head>
+        <title>Welcome To Ommitus </title>
+      </head>
       <h1>Welcome to the App</h1>
       <nav>
         <Link to={"/restaurant/register-restaurant"}>Register Restaurant</Link> <br />

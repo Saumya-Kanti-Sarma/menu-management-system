@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "./css/CreateMenu.css";
 import { useParams } from 'react-router-dom';
 import { storage } from '../../utils/Firebase.js';
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
@@ -49,10 +49,9 @@ const CreateMenu = () => {
     } catch (error) {
       toast.error("Failed to save draft.");
       console.log(error);
-
     }
     finally {
-      toast.dismiss(loaderDisplay)
+      toast.dismiss(loadingToast)
     }
   };
 

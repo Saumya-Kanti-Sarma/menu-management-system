@@ -4,10 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { ToastContainer } from "react-toastify"
 import Home from './pages/Home';
-import CustomerHome from './pages/customer/CustomerHome';
-import CustomerRegister from './pages/customer/Register';
-import CustomerLogin from './pages/customer/Login';
-import CustomerViewMenu from './pages/customer/ViewMenu';
 
 // restaurant routes
 import Registration from './pages/restaurant/registration/Registration.jsx';
@@ -31,12 +27,6 @@ function App() {
           <Route path="/" element={<Home />} />
 
           {/* Customer Routes */}
-          <Route path="customer/register" element={<CustomerRegister />} />
-          <Route path="customer/login" element={<CustomerLogin />} />
-          <Route path="/customer" element={<CustomerHome />}>
-            <Route path="view-menu/:idOfRestaurant" element={<CustomerViewMenu />} />
-          </Route>
-
           {/* Restaurant Routes */}
           <Route path="/restaurant/register-restaurant" element={<Registration />} />
           <Route path="/restaurant/login" element={<Login />} />
