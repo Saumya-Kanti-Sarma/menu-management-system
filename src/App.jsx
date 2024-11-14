@@ -15,6 +15,7 @@ import CreateMenu from './pages/restaurant/CreateMenu';
 import DishDetail from './pages/restaurant/DishDetail.jsx';
 import Menu from './pages/restaurant/Menu.jsx';
 import Available from './pages/restaurant/Available.jsx';
+import QrCode from './pages/restaurant/QrCode.jsx';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path="menu/get-one/:idOfDish" element={<DishDetail />} />
             <Route path="menu/create-menu/:idOfRestaurant" element={<CreateMenu />} />
             <Route path="menu/available/:available" element={<Available />} />
+            <Route path="get-qr-code" element={<QrCode />} />
             {/* <Route path="delete-menu/:idOfRestaurant/:idOfMenu" element={<DeleteMenu />} /> */}
           </Route>
 

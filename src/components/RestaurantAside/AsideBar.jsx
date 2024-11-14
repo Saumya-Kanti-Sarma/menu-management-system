@@ -10,29 +10,42 @@ const AsideBar = () => {
   const [dishActive, setDishActive] = useState("");
   const [availableActive, setAvailableActive] = useState("");
   const [unavailableActive, setUnavailableActive] = useState("");
+  const [QrActive, setQrActive] = useState("");
 
   useEffect(() => {
     // Check the current path and set the active state accordingly
     if (location.pathname === `/restaurant/${nameOfRestaurant}/${idOfRestaurant}/menu`) {
       setMenuActive("active");
+      setQrActive("")
       setDishActive("");
       setAvailableActive("");
       setUnavailableActive("");
+
     } else if (location.pathname === `/restaurant/${nameOfRestaurant}/${idOfRestaurant}/menu/create-menu/${idOfRestaurant}`) {
       setMenuActive("");
       setDishActive("active");
+      setQrActive("")
       setAvailableActive("");
       setUnavailableActive("");
     } else if (location.pathname === `/restaurant/${nameOfRestaurant}/${idOfRestaurant}/menu/available/true`) {
       setMenuActive("");
       setDishActive("");
       setAvailableActive("active");
+      setQrActive("")
       setUnavailableActive("");
     } else if (location.pathname === `/restaurant/${nameOfRestaurant}/${idOfRestaurant}/menu/available/false`) {
       setMenuActive("");
       setDishActive("");
       setAvailableActive("");
       setUnavailableActive("active");
+      setQrActive("")
+    }
+    else if (location.pathname === `/restaurant/${nameOfRestaurant}/${idOfRestaurant}/get-qr-code`) {
+      setMenuActive("");
+      setDishActive("");
+      setAvailableActive("");
+      setUnavailableActive("");
+      setQrActive("active")
     }
   }, [location.pathname, nameOfRestaurant, idOfRestaurant]);
 
@@ -62,6 +75,11 @@ const AsideBar = () => {
             <li className={`menu-item-li ${unavailableActive}`}>
               <Link to={`/restaurant/${nameOfRestaurant}/${idOfRestaurant}/menu/available/false`} className="menu-link">
                 <span>Un-Available</span>
+              </Link>
+            </li>
+            <li className={`menu-item-li ${QrActive}`}>
+              <Link to={`/restaurant/${nameOfRestaurant}/${idOfRestaurant}/get-qr-code`} className="menu-link">
+                <span>Get QR</span>
               </Link>
             </li>
           </ul>
