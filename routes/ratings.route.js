@@ -102,7 +102,7 @@ route.get("/average-stars/:dishID", async (req, res) => {
       if (result.length <= 0) {
         return res.send({
           message: "No ratings found for this dish.",
-          averageStars: 1,
+          averageStars: 5,
         });
       }
 
