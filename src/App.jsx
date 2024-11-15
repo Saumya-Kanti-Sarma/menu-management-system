@@ -18,6 +18,8 @@ import Available from './pages/restaurant/Available.jsx';
 import QrCode from './pages/restaurant/QrCode.jsx';
 import ViewMenu from './pages/customers/ViewMenu.jsx';
 import MenuDetail from './pages/customers/MenuDetail.jsx';
+import RegisterCustomer from './pages/customers/RegisterCustomer.jsx';
+import LoginCustomer from './pages/customers/LoginCustomer.jsx';
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
           {/* Customer Routes */}
           <Route path='/customer/menu/:nameOfRestaurant/:idOfRestaurant' element={<ViewMenu />} />
           <Route path='/customer/:nameOfRestaurant/:idOfRestaurant/menu/get-one/:idOfDish' element={<MenuDetail />} />
+          <Route path='/customer/register-account' element={<RegisterCustomer />} />
+          <Route path='/customer/login-account' element={<LoginCustomer />} />
           {/* Restaurant Routes */}
           <Route path="/restaurant/register-restaurant" element={<Registration />} />
           <Route path="/restaurant/login" element={<Login />} />
