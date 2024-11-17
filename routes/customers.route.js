@@ -7,20 +7,20 @@ const router = express.Router();
 // Create Account Route
 router.post("/create-account", async (req, res) => {
   try {
-    const { name, phoneNumber, password } = req.body;
+    const { name, email, password } = req.body;
 
     // Validate request body
-    if (!name || !phoneNumber) {
+    if (!name || !email) {
       return res.send({
-        message: "Both name and Phone number are required",
+        message: "Both name and email are required",
       });
     }
 
-    // Check if customer with the same phone number already exists
-    const existingNumber = await customerData.findOne({ phoneNumber });
+    // Check if customer with the same email already exists
+    const existingNumber = await customerData.findOne({ email });
     if (existingNumber) {
-      return res.send({
-        message: "Phone number already registered. Please login.",
+      return res.status(300).send({
+        message: "email already registered. Please login.",
       });
     }
 
@@ -29,14 +29,14 @@ router.post("/create-account", async (req, res) => {
     // Create new customer
     const newCustomer = new customerData({
       name,
-      phoneNumber,
+      email,
       password: hashedPassword
     });
 
     const savedCustomer = await newCustomer.save();
     res.status(201).send({
       message: "Account created successfully.",
-      data: savedCustomer,
+      credentials: savedCustomer
     });
   } catch (error) {
     res.status(500).send({
@@ -49,9 +49,9 @@ router.post("/create-account", async (req, res) => {
 // Login Route
 router.post("/login", async (req, res) => {
   try {
-    const { phoneNumber, name, password } = req.body;
-    // Check if the customer exists with the provided phone number
-    const validDetails = await customerData.findOne({ $or: [{ name }, { phoneNumber }] });
+    const { email, name, password } = req.body;
+    // Check if the customer exists with the provided email
+    const validDetails = await customerData.findOne({ $or: [{ name }, { email }] });
     if (!validDetails) {
       return res.status(404).send({
         message: "No account found with the provided details.",
@@ -62,13 +62,14 @@ router.post("/login", async (req, res) => {
     if (comparePassword) {
       res.send({
         status: true,
-        data: `welcome back ${validDetails.name}`
+        message: `welcome back ${validDetails.name}`,
+        credentials: validDetails
       })
     }
     else {
-      res.send({
+      res.status(400).send({
         status: false,
-        data: `wrong password. Please try again.`
+        message: `wrong password. Please try again.`
       })
     }
   } catch (error) {
@@ -79,11 +80,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Route to update customer information (name or phone number)
+// Route to update customer information (name or email)
 router.put("/update-account/:id", async (req, res) => {
   try {
     const id = req.params.id; // Get customer ID from URL parameters
-    const { name, phoneNumber, password } = req.body;
+    const { name, email, password } = req.body;
 
     // Find the customer by ID
     const customer = await customerData.findById(id);
@@ -96,11 +97,11 @@ router.put("/update-account/:id", async (req, res) => {
     if (name) {
       customer.name = name;
     }
-    // Update phone number if provided
-    if (phoneNumber) {
-      customer.phoneNumber = phoneNumber;
+    // Update email if provided
+    if (email) {
+      customer.email = email;
     }
-    // Update phone number if provided
+    // Update email if provided
     if (password) {
       customer.password = password;
     }

@@ -6,7 +6,7 @@ const customerSchema = new mongoose.Schema({
     required: true,
     trim: true, // removes blank space from start and end
   },
-  phoneNumber: {
+  email: {
     type: String,
     required: true,
     unique: true,

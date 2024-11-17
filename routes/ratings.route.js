@@ -39,11 +39,11 @@ route.post("/add-review/:dishID/:customerID", async (req, res) => {
 
   } catch (error) {
     if (error.code === 11000) { // Handle duplicate key error
-      res.status(400).json({
-        error: "A rating already exists. Please update the existing rating instead.",
+      res.status(400).send({
+        message: "A rating already exists. Please update the existing rating instead.",
       });
     } else {
-      res.status(500).json({ error: error });
+      res.status(500).send({ error: error });
     }
   }
 });
