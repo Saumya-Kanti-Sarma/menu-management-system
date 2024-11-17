@@ -1,0 +1,96 @@
+.auth-container-parent {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  min-height: 650px;
+  min-width: 200px;
+  background-color: #019c75;
+  overflow: auto;
+}
+
+.auth-container {
+  width: 600px;
+  height: 55%;
+  min-height: 400px;
+  margin: auto 0;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.auth-container section {
+  width: 100%;
+}
+
+.auth-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-submit {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-container input {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.auth-container button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.password-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.password-container input {
+  width: 91%;
+  position: relative;
+  overflow: hidden;
+  padding-right: 40px;
+  /* Leave space for the icon */
+}
+
+.toggle-password-icon {
+  position: absolute;
+  right: 10px;
+  top: 38%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+
+.auth-container button:hover {
+  background-color: #00b386;
+}
+
+.google-login-btn {
+  background-color: #db4437;
+  margin-top: 10px;
+}
+
+.google-login-btn:hover {
+  background-color: #c23321;
+}

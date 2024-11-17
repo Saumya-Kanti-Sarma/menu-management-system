@@ -5,6 +5,7 @@
   align-items: center;
   text-align: center;
   background-color: #ff8635;
+  color: #fff;
 }
 
 .customer-menu-main {
@@ -29,7 +30,7 @@
 
 @media (max-width:390px) {
   .customer-menu-heading {
-    height: 45px;
+    height: 55px;
   }
 
   .customer-menu-heading h2 {
@@ -38,23 +39,28 @@
 
   .customer-menu-main {
     margin-left: 2%;
-    height: calc(100vh - 45px);
+    height: calc(100vh - 55px);
     width: calc(100vw - 2%);
   }
 }
 
 @media (max-width:390px) {
-  .customer-menu-heading {
-    height: 45px;
-  }
 
   .customer-menu-heading h2 {
-    font-size: 15px;
+    font-size: 18px;
   }
 
   .customer-menu-main {
     margin-left: 2%;
-    height: calc(100vh - 45px);
     width: calc(100vw - 2%);
   }
+}
+
+
+/* Customer menu detail  */
+
+.customer-menu-detail-main {
+  height: 100vh;
+  overflow: scroll;
+  background-color: #ddd9d6;
 }

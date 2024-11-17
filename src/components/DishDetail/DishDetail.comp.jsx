@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import './DishDetail.comp.css';
+import Cookies from "js-cookie"
 import { getStorage, ref, deleteObject } from "firebase/storage"; // Import Firebase storage
 
 
@@ -10,7 +11,7 @@ import { getStorage, ref, deleteObject } from "firebase/storage"; // Import Fire
 const DishDetailComponent = ({ DisplayEditAndDelete, DisplayAddReview }) => {
 
   // Get parameters from URL
-  const { idOfRestaurant, idOfDish } = useParams();
+  const { idOfRestaurant, idOfDish, nameOfRestaurant } = useParams();
 
   // State variables
   const [dish, setDish] = useState(null);
@@ -21,6 +22,9 @@ const DishDetailComponent = ({ DisplayEditAndDelete, DisplayAddReview }) => {
   const [AveRatings, setAveRatings] = useState(0);
   const [expandedReviews, setExpandedReviews] = useState({});
   const navigate = useNavigate();
+
+  const [starIndex, setStarIndex] = useState(null); // Save clicked star index
+  const [comment, setComment] = useState(''); // Save comment
 
   // Fetch dish details on component mount
   useEffect(() => {
@@ -134,13 +138,13 @@ const DishDetailComponent = ({ DisplayEditAndDelete, DisplayAddReview }) => {
                 {
                   loading: 'Deleting...',
                   success: 'Review deleted successfully!',
-                  duration: 4000,
+                  duration: 1000,
                   error: 'Failed to delete review, try again later',
                 }
               )
                 .then(() => window.location.reload())
                 .catch((error) => {
-                  toast.error("Cannot delete now... please check the console and try again later", { duration: 4000, });
+                  toast.error("Cannot delete now... please check the console and try again later", { duration: 1000, });
                   console.log(error);
                 });
             }}
@@ -184,7 +188,61 @@ const DishDetailComponent = ({ DisplayEditAndDelete, DisplayAddReview }) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
-  // Main render
+
+
+  const handleSubmit = async () => {
+    // Set the collected data
+    const customerID = Cookies.get("customerID");
+    const userName = Cookies.get("customerName");
+    const reviewData = {
+      review: comment,
+      customerName: userName,
+      stars: starIndex,
+    };
+
+    if (customerID == undefined || userName == undefined) {
+      Cookies.set("RestaurantURL", `/customer/${nameOfRestaurant}/${idOfRestaurant}/menu/get-one/${idOfDish}`)
+      toast((t) => (
+        <span style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "5px" }}>
+          <p>please Sign-up to continue</p> <br />
+          <button className='btn edit-btn'
+            onClick={() => {
+              navigate("/customer/register-account");
+              toast.dismiss(t.id);
+              console.log(reviewData);
+
+            }
+            }
+          >SIGN-UP</button>
+        </span>
+      ))
+    }
+
+    else {
+
+      const toastID = toast.loading("Adding your feedback...");
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/customer/ratings/add-review/${idOfDish}/${customerID}`, reviewData);
+        toast.success(response.data.message);
+        setTimeout(() => {
+          window.location.reload();
+        }, 400);
+        console.log('Review submitted successfully:', response.data);
+      } catch (error) {
+        toast.error(error.response.data.message);
+        console.log(error);
+
+      }
+      finally {
+        toast.dismiss(toastID);
+      }
+    }
+  };
+
+  const handleStarClick = (index) => {
+    setStarIndex(index + 1); // Update clicked star index
+  };
+
 
   return (
     <>
@@ -213,16 +271,34 @@ const DishDetailComponent = ({ DisplayEditAndDelete, DisplayAddReview }) => {
 
           {/* Add review area */}
           <div className="add-review" style={{ display: DisplayAddReview }}>
-
-            <section className='add-review-stars-area'>
-              <p> Rate Stars:</p> {"★".repeat(5)}
+            <section className="add-review-stars-area">
+              <p>Rate Stars:</p>
+              {"★".repeat(5).split('').map((star, index) => (
+                <span
+                  key={index}
+                  onClick={() => handleStarClick(index)}
+                  style={{
+                    color: index < starIndex ? '#FFA500' : '#0000006c', // Change color of clicked and previous stars
+                    cursor: 'pointer',
+                    fontSize: '24px',
+                  }}
+                >
+                  {star}
+                </span>
+              ))}
             </section>
 
-            <section className='add-review-review-area'>
-              <textarea name="review">Your Feedback Is Very Important To Us...</textarea>
-              <button className='btn edit-btn'>Submit</button>
+            <section className="add-review-review-area">
+              <textarea
+                name="review"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)} // Update comment
+                placeholder="Your Feedback Is Very Important To Us..."
+              />
+              <button className="btn edit-btn" onClick={handleSubmit}>
+                Submit
+              </button>
             </section>
-
           </div>
         </div>
       </div>

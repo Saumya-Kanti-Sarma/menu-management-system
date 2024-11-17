@@ -296,9 +296,6 @@
     width: 300px;
   }
 
-  .add-review-review-area textarea {
-    flex: 3;
-  }
 
   .add-review-stars-area p {
     font-size: 12px;
@@ -306,6 +303,10 @@
 }
 
 @media (max-width:400px) {
+
+  .review-parent:hover {
+    box-shadow: none;
+  }
 
   .dish-info-section h2 {
     font-size: 18px;
@@ -316,8 +317,16 @@
     width: 90%;
   }
 
+  .add-review-review-area {
+    height: 155px;
+    padding: 5px;
+    /* background-color: #333; */
+    flex-direction: column;
+  }
+
   .add-review-review-area textarea {
     font-size: 12px;
+    width: 100%;
   }
 
   .res-ratings-area h1 {

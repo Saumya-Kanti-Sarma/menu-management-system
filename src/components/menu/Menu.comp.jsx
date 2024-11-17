@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from "js-cookie";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import "./menu.comp.css"
@@ -11,11 +10,6 @@ const MenuComponent = ({ mainUrl, onclickURL }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const restaurantToken = Cookies.get("RestaurantCredentialToken");
-    if (!restaurantToken) {
-      navigate("/restaurant/register-restaurant");
-      return;
-    }
 
     // Fetch data of the restaurant to get all items
     const fetchData = async () => {

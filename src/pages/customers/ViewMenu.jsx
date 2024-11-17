@@ -7,12 +7,17 @@ const ViewMenu = () => {
   return (
     <>
       <div className='customer-menu-heading'>
-        <h2>Welcome to {nameOfRestaurant} <br /> dishes available with us:</h2>
+        <h2>Welcome to {nameOfRestaurant}</h2>
       </div>
       <main className='customer-menu-main'>
         <MenuComponent
           onclickURL={`/customer/${nameOfRestaurant}/${idOfRestaurant}/menu/get-one`}
           mainUrl={`/restaurant/menu/${idOfRestaurant}&available=true`} />
+
+
+        <br />
+        <br />
+        <br />
       </main>
     </>
   )
