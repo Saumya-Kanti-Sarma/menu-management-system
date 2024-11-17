@@ -12,7 +12,6 @@
 .auth-container {
   width: 600px;
   height: 55%;
-  min-height: 400px;
   margin: auto 0;
   padding: 20px;
   border: 1px solid #ddd;
@@ -93,4 +92,26 @@
 
 .google-login-btn:hover {
   background-color: #c23321;
+}
+
+
+@media (max-width:480px) {
+  .auth-container {
+    width: calc(100% - 100px);
+    padding-bottom: 5px;
+
+  }
+
+  .auth-container h2 {
+    font-size: 17px;
+  }
+
+  .auth-container input {
+    font-size: 13px;
+  }
+
+  .auth-container a {
+    font-size: 12px;
+    text-decoration: none;
+  }
 }
