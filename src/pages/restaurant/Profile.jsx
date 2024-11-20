@@ -1,13 +1,18 @@
-import React from 'react'
+import React from 'react';
+import { useParams } from "react-router-dom";
 
 import ProfileCardComponent from '../../components/ProfileCard/ProfileCard.comp'
 import ImgGridComponent from '../../components/ImgGrid/ImgGrid.comp'
 
-import "./css/Profile.css"
+import "./css/Profile.css";
+
 const Profile = () => {
+  const { nameOfRestaurant } = useParams()
   return (
     <>
-      <ProfileCardComponent />
+      <ProfileCardComponent
+        name={nameOfRestaurant}
+      />
       <div className="profile-content-area">
         <ImgGridComponent
           heading={"COVER PHOTOS"}

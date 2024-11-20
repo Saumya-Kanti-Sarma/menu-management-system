@@ -1,0 +1,12 @@
+.btn-comp {
+  padding: 10px 25px;
+  background-color: #009975;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-comp:hover {
+  opacity: 0.67;
+}

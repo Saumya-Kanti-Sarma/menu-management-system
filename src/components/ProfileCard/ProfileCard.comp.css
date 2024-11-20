@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   width: calc(100% - 20px);
-  justify-content: space-between;
+  justify-content: start;
   height: 20vh;
   min-height: 130px;
   overflow: hidden;
@@ -21,8 +21,8 @@
 
 #profile-name {
   display: flex;
-  align-items: end;
-  gap: 2px;
+  align-items: center;
+  gap: 20px;
   margin-bottom: 10px;
 }
 
@@ -30,4 +30,71 @@
 #profile-description b {
   color: #21a786;
   cursor: pointer;
+}
+
+.popup {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+  box-shadow: 12px;
+  background-color: #00000080;
+  z-index: 100;
+  box-shadow: 0 0 10px #000000a1;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-child {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 0 10px 0 #00000091;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 50vw;
+  min-height: 450px;
+  gap: 16px;
+}
+
+.popup-child span {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+}
+
+.input-popup-child {
+  width: 97%;
+  /* height: 70px; */
+  font-size: 18px;
+  padding: 15px 10px;
+  border: 1px solid #000;
+  border-radius: 8px;
+}
+
+.paragraph-input-popup {
+  height: 140px;
+  text-align: start;
+  padding: 10px;
+  resize: none;
+  border: none;
+  outline: none;
+  background-color: #f8f0f0;
+}
+
+.paragraph-input-popup::-webkit-scrollbar {
+  display: none;
 }

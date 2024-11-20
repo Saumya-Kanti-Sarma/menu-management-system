@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios"
 import "./ImgGrid.comp.css";
 
-const ImgGridComponent = ({ heading, imgList, limit }) => {
+const ImgGridComponent = ({ heading, imgList, limit, onClick }) => {
   const [enlargedIndex, setEnlargedIndex] = useState(null);
   const [displayBtn, setDisplayBtn] = useState("flex");
 
@@ -11,13 +12,16 @@ const ImgGridComponent = ({ heading, imgList, limit }) => {
   };
 
   useEffect(() => {
-    if (limit == imgList.length) {
-      setDisplayBtn("none")
+    if (imgList) {
+      if (limit == imgList.length) {
+        setDisplayBtn("none")
+      }
     }
     else {
       setDisplayBtn("flex")
     }
   }, [])
+
 
   return (
     <div className="img-div-comp">
