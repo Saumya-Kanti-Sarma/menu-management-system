@@ -7,37 +7,44 @@ const restaurantSchema = new mongoose.Schema({
     unique: true,
     trim: true,//  Automatically trims whitespace from the start and end
   },
-  password: {
+  email: {
     type: String,
-    required: true,
-  },
-  phoneNumber: {
-    type: String,
+    trim: true,
     required: true,
     unique: true,
   },
-  address: {
+  password: {
     type: String,
     required: true,
   },
   ownerName: {
     type: String,
-    required: true,
+    trim: true,
   },
-  type: {
-    type: [String], // Array of restaurant types
-    enum: ["club", "events", "family", "dhaba", "bar", "cafe"], // Valid types
+  since: {
+    type: String,
+  },
+  address: {
+    type: String,
+    trim: true,
+  },
+  phoneNumber: {
+    type: String,
+    trim: true,
+  },
+  coverPics: {
+    type: [String],
+  },
+  about: {
+    type: String,
+    trim: true,
+  },
+  highlights: {
+    type: [String],
   },
   created: {
     type: String,
     default: Date(),
-  },
-  token: {
-    type: String
-  },
-  embedding: {
-    type: [Number],
-    index: "2dsphere",
   },
 });
 

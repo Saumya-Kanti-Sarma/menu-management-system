@@ -6,16 +6,36 @@ const menuSchema = new mongoose.Schema({
     required: true,
     trim: true, // automatically reoves white space from start and end
   },
-  image: {
-    type: String,
-    required: true,
-  },
   price: {
     type: Number,
     required: true,
   },
-  available: {
+  image: {
+    type: [String],
+  },
+  category: {
+    type: String,
+    trim: true,
+    enum: ["starter", "main-course", "curry", "beverages", "special",]
+  },
+  veg: {
     type: Boolean,
+    default: false,
+  },
+  description: {
+    type: String,
+    trim: true,
+  },
+  fullPlate: {
+    type: String,
+    trim: true,
+  },
+  halfPlate: {
+    type: String,
+    trim: true,
+  },
+  available: {
+    type: String,
     default: true,
   },
   restaurantId: {

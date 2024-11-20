@@ -1,130 +1,280 @@
 import express from 'express';
+import bcrypt from 'bcrypt';
+import { restaurantData } from '../schemas/restaurant.schema.js';
+import mongoose from 'mongoose';
 const router = express.Router();
-import { restaurantData } from "../schemas/restaurant.schema.js"
-import bcrypt from "bcrypt"
+import { EncryptAlgo, DecryptAlgo } from '../utils/Encrypt.utils.js';
 
 // Route to create an account
 router.post('/create-account', async (req, res) => {
   try {
-    const { restaurantName, password, phoneNumber, address, ownerName, type } = req.body; // remove parentheses
-    // Check if required fields are present
-    if (!restaurantName || !password || !phoneNumber || !address || !ownerName) {
-      return res.status(400).send({ message: "All fields are required" });
+    const { restaurantName, password, phoneNumber, address, ownerName, since, email, about } = req.body;
+
+    // Validate required fields
+    if (!restaurantName || !password || !email || !phoneNumber) {
+      return res.status(400).send({ message: "All required fields must be provided." });
     }
 
-    // Hash the password, phoneNumber, and address
-    const hashedPassword = await bcrypt.hash(password, 10); // await each bcrypt.hash call
-    const hashedPhoneNumber = await bcrypt.hash(phoneNumber, 10);
-    const hashedAddress = await bcrypt.hash(address, 10);
+    // Check for duplicate accounts
+    const existingAccount = await restaurantData.findOne({
+      $or: [{ restaurantName }, { email }, { phoneNumber }],
+    });
 
-    // check if restaurant is already registered:
-    const checkRegistration = await restaurantData.findOne({ restaurantName });
-    if (checkRegistration) {
-      res.send({
-        message: "cannot register new account",
-        data: "account name already registered!"
-      })
+    if (existingAccount) {
+      return res.status(400).send({
+        message: "Account already exists with the provided details.",
+      });
     }
-    // generate token 
-    const token = `${ownerName + Date.now()}`;
 
-    // Create a new restaurant document
+    // Hash sensitive fields
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create and save the new account
     const data = new restaurantData({
       restaurantName,
       password: hashedPassword,
-      phoneNumber: hashedPhoneNumber,
-      address: hashedAddress,
+      phoneNumber,
+      address,
       ownerName,
-      type,
-      token: token
+      since,
+      email,
+      about
     });
+
     const response = await data.save();
 
-    res.status(200).send({
-      msg: 'Account created successfully',
-      data: response,
+    res.status(201).send({
+      message: 'Account created successfully.',
+      data: {
+        restaurantName: response.restaurantName,
+        email: response.email,
+        token: response.token, // Return token
+      },
     });
   } catch (error) {
-    res.status(400).send({
-      message: "Error in creating account",
+    res.status(500).send({
+      message: "Error in creating account.",
       error: error.message,
     });
   }
 });
+
 
 // Route to login
 router.post('/login', async (req, res) => {
   try {
-    const { restaurantName, password, phoneNumber } = req.body;
+    const { restaurantName, password } = req.body;
 
-    // Check if either restaurant name or phone number is provided along with the password
-    if ((!restaurantName && !phoneNumber) || !password) {
+    if (!restaurantName || !password) {
       return res.status(400).send({
-        message: "Please provide a restaurant name or phone number along with the password."
+        message: "All Details required",
+      });
+    }
+    else if (!restaurantName) {
+      return res.status(400).send({
+        message: "Restaurant name required",
+      });
+    }
+    else if (!password) {
+      return res.status(400).send({
+        message: "password required",
       });
     }
 
-    // Find the user by restaurant name or phone number
-    const user = await restaurantData.findOne({ $or: [{ restaurantName }, { phoneNumber }] });
+    // Find the user
+    const user = await restaurantData.findOne({ restaurantName });
 
-    // If the user is not found, respond with an error
     if (!user) {
       return res.status(404).send({
-        message: "User not found. Please check your credentials."
+        message: "No account found with the provided details.",
       });
     }
 
     // Compare password
-    const comparePassword = await bcrypt.compare(password, user.password);
-    if (comparePassword) {
-      res.status(200).send({
-        message: `Welcome back ${user.restaurantName}`,
-        data: user
-      });
-    } else {
-      // Respond with an error if the password does not match
-      return res.status(401).send({
-        message: "Invalid password. Please try again."
-      });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).send({ message: "Invalid password." });
     }
+
+    // Respond with a success message and token
+    res.status(200).send({
+      message: `Welcome back, ${user.restaurantName}!`,
+      data: user, // Return token for authentication
+    });
   } catch (error) {
     res.status(500).send({
-      message: "Error in login, please try again later",
+      message: "Error during login.",
       error: error.message,
     });
   }
 });
 
-// route to get all restaurants
-router.get('/allrestaurant/:from/:to', async (req, res) => {
+
+router.post("/forgot-password/:id", async (req, res) => {
+  const id = req.params.id;
+  const { email, password } = req.body;
+
   try {
-    const from = parseInt(req.params.from, 0);
-    const to = parseInt(req.params.to, 10);
+    // Find the user by ID
+    const verifyUser = await restaurantData.findById(id);
+    if (!verifyUser) {
+      return res.status(404).send({ message: "User not found!" });
+    }
 
-    // Calculate the number of documents to fetch
-    const limit = to - from + 1;
+    // Check if the email matches
+    if (verifyUser.email !== email) {
+      return res.status(400).send({ message: "Email does not match!" });
+    }
 
-    // Fetch restaurants with skip and limit
-    const restaurants = await restaurantData.find()
-      .skip(from)
-      .limit(limit);
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Update the password
+    const newData = await restaurantData.findByIdAndUpdate(
+      id,
+      { $set: { password: hashedPassword } },
+      { new: true } // Return the updated document
+    );
 
     res.status(200).send({
-      success: true,
-      data: restaurants
+      message: "Password changed successfully!",
+      data: newData,
     });
   } catch (error) {
-    res.send({
-      success: false,
-      message: 'Error fetching restaurants',
-      error: error.message
+    res.status(400).send({
+      message: error.message,
     });
   }
 });
 
-// Route to delete an account
-router.delete('/delete', (req, res) => {
-  // Handle account deletion logic here
+// get info
+router.get('/get-info/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const restaurant = await restaurantData.findById(id);
+    if (!restaurant) {
+      res.status(400).send({
+        message: "cannot Find the restaurant"
+      })
+    }
+    const newData = {
+      ownerName: restaurant.ownerName,
+      restaurantName: restaurant.restaurantName,
+      email: restaurant.email,
+      ownerName: restaurant.ownerName,
+      since: restaurant.since,
+      address: restaurant.address,
+      phoneNumber: restaurant.phoneNumber,
+      about: restaurant.about,
+    }
+    res.status(200).send({
+      restaurantDetails: newData
+    })
+
+
+  } catch (error) {
+    res.status(400).send({
+      message: "cannot get info right now, please try later",
+      error: error,
+    })
+  }
+})
+
+
+// update data
+router.put('/update/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      restaurantName,
+      email,
+      ownerName,
+      since,
+      address,
+      phoneNumber,
+      coverPics,
+      about,
+      highlights,
+      password,
+    } = req.body;
+
+    // Validate the provided ID
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).send({ message: "Invalid account ID." });
+    }
+
+    // Create an object for the fields to update
+    const updateData = {};
+
+    // Hash password if it exists
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    // Add other fields to the update object
+    if (restaurantName) updateData.restaurantName = restaurantName;
+    if (email) updateData.email = email;
+    if (address) updateData.address = address;
+    if (phoneNumber) updateData.phoneNumber = phoneNumber;
+    if (ownerName) updateData.ownerName = ownerName;
+    if (since) updateData.since = since;
+    if (coverPics) updateData.coverPics = coverPics;
+    if (about) updateData.about = about;
+    if (highlights) updateData.highlights = highlights;
+
+    // Check if there's any data to update
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).send({ message: "No update data provided." });
+    }
+
+    // Update the account
+    const updatedAccount = await restaurantData.findByIdAndUpdate(
+      id,
+      { $set: updateData }, // Use $set to avoid overwriting the entire document
+      { new: true, runValidators: true } // Return updated document and validate the data
+    );
+
+    // Handle case where the account does not exist
+    if (!updatedAccount) {
+      return res.status(404).send({ message: "Account not found." });
+    }
+
+    res.status(200).send({
+      message: "Account updated successfully.",
+      data: updatedAccount,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error updating account.",
+      error: error.message,
+      ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
+      IV: process.env.IV,
+    });
+  }
 });
+
+
+// Route to delete an account
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedAccount = await restaurantData.findByIdAndDelete(id);
+
+    if (!deletedAccount) {
+      return res.status(404).send({ message: "Account not found." });
+    }
+
+    res.status(200).send({
+      message: "Account deleted successfully.",
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error deleting account.",
+      error: error.message,
+    });
+  }
+});
+
 
 export default router;

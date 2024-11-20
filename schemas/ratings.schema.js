@@ -25,6 +25,10 @@ const ratingsSchema = new mongoose.Schema({
     max: 5,
     default: 0,
   },
+  gender: {
+    type: Boolean,
+    default: true
+  }
 });
 ratingsSchema.index(
   {
